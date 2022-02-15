@@ -18,44 +18,41 @@ function updateTotalField(textId, newAmount) {
   return newDepositTotal;
 }
 
+
+function updateTotalBalance(newBalance, isAdd) {
+    let balance = document.getElementById("banalce");
+    let previousBalanceTotal = parseFloat(balance.innerText);
+    if (isAdd == true) {
+      balance.innerText = previousBalanceTotal + newBalance;
+    } else {
+      balance.innerText = previousBalanceTotal - newBalance;
+    }
+  
+    return balance;
+  }
+
 // Handle deposit & balance total
 document.getElementById("deposit-btn").addEventListener("click", function () {
   // get value from function
   const newDeposit = getInputValue("deposit-input");
-
-  // //update deposit total
-//   const depoitNumber = document.getElementById("depoit-number");
-//   const preViousDepositAmount = parseFloat(depoitNumber.innerText);
-
-//   const newDepositTotal = preViousDepositAmount + newDeposit;
-//   depoitNumber.innerText = newDepositTotal;
+  if (newDeposit > 0) {
     updateTotalField("depoit-number", newDeposit);
 
-  // update balance total
-  const balance = document.getElementById("banalce");
-  const balanceTotal = parseInt(balance.innerText);
-  const Total = balanceTotal + newDeposit;
-  balance.innerText = Total;
+    updateTotalBalance(newDeposit, true);
+  }
 });
-
-
 
 // Handle Withdraw & balance total
 document.getElementById("withdraw-btn").addEventListener("click", function () {
   // get value from function
   const newWithdran = getInputValue("withdraw-input");
 
-//   const withdrawn = document.getElementById("withdrawn");
-//   const withdrawnVal = parseFloat(withdrawn.innerText);
+  let balance = document.getElementById("banalce");
+  let previousBalanceTotal = parseFloat(balance.innerText);
 
-//   //update withdraw total
-//   const newWithdranAmount = withdrawnVal + newWithdran;
-//   withdrawn.innerText = newWithdranAmount;
-    updateTotalField("withdrawn", newWithdran)
+  if (newWithdran > 0 && newWithdran < previousBalanceTotal) {
+    updateTotalField("withdrawn", newWithdran);
 
-  // update balance total
-  const balance = document.getElementById("banalce");
-  const balanceTotal = parseInt(balance.innerText);
-  const Total = balanceTotal - newWithdran;
-  balance.innerText = Total;
+    updateTotalBalance(newWithdran, false);
+  }
 });
